@@ -1,0 +1,41 @@
+world = []
+n = int(input('Enter number of rows: '))
+m = int(input('Enter number of columns: '))
+for i in range(n):
+    world_1 = []
+    for j in range(m):
+        world_1.append(int(input()))
+    world.append(world_1)
+
+
+def research_island(world, visit, row, col):
+    if row < 0 or row >= len(world) or col < 0 or col >= len(world[0]) \
+            or visit[row][col] == '*' or world[row][col] == 0:
+        return
+    visit[row][col] = '*'
+    for i in range(row - 1, row + 2):
+        for j in range(col - 1, col + 2):
+            if i != row or j != col:
+                research_island(world, visit, i, j)
+
+
+def island_count(world):
+    island = 0
+    rows = len(world)
+    columns = len(world[0])
+    visit = []
+    for i in range(rows):
+        visit_1 = []
+        for j in range(columns):
+            visit_1.append('-')
+        visit.append(visit_1)
+    for row in range(rows):
+        for col in range(columns):
+            if world[row][col] == 1 and visit[row][col] == '-':
+                island += 1
+                research_island(world, visit, row, col)
+    return f'Number of islands: {island}'
+
+
+print(island_count(world))
+print(world)
